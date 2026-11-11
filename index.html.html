@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Instagram Video Downloader: Reels to MP4 | IGDownloader</title>
+<meta name="description" content="Free Instagram video downloader. Paste a Reel or video link and save it as MP4 or MP3. No login, no watermark, no app.">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a12;--card:#0e1320;--card2:#111830;--line:#1c2641;--tx:#f1f5ff;--mut:#a3aecb;--ac:#2f6df6;--ac2:#5b94ff;--gold:#e3c39a;--ok:#34d399;--hg:rgba(255,255,255,.14);
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="light"]{--bg:#f3f6ff;--card:#fff;--card2:#eef3ff;--line:#d3dcf3;--tx:#0b1530;--mut:#52618a;--gold:#b07a2e}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3f6ff;--card:#fff;--card2:#eef3ff;--line:#d3dcf3;--tx:#0b1530;--mut:#52618a;--gold:#b07a2e}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--tx);font:500 16px/1.7 Manrope,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit;text-decoration:none}
+.w{max-width:1280px;margin:0 auto;padding:0 40px}
+:focus-visible{outline:2px solid var(--ac2);outline-offset:2px}
+/* header */
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+header.s{background:rgba(7,10,18,.86);backdrop-filter:blur(12px);border-color:var(--line)}
+header .w{display:flex;align-items:center;gap:12px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:#fff;margin-right:14px}
+.logo i{width:44px;height:44px;border-radius:12px;background:#fff;display:grid;place-items:center;color:var(--ac);font-style:normal;font-size:20px;box-shadow:0 6px 20px rgba(47,109,246,.4)}
+.nv{position:relative}
+.pill{display:flex;align-items:center;gap:6px;height:48px;padding:0 20px;border-radius:99px;background:rgba(255,255,255,.14);border:0;color:#fff;font:700 16px inherit;font-family:inherit;cursor:pointer;backdrop-filter:blur(8px)}
+.pill:hover{background:rgba(255,255,255,.22)}
+header.s .pill{background:transparent;color:var(--mut)}header.s .pill:hover{color:var(--tx)}
+.dd{display:none;position:absolute;top:56px;left:0;min-width:210px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.nv.o .dd{display:block}
+.dd a{display:block;padding:9px 12px;border-radius:9px;color:var(--mut);font-size:15px}
+.dd a:hover{background:var(--card2);color:var(--tx)}
+.sp{margin-left:auto;display:flex;gap:10px}
+.ic{width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:18px;cursor:pointer}
+header.s .ic{background:transparent;color:var(--mut)}
+.dl{height:48px;padding:0 24px;border-radius:12px;border:0;background:#fff;color:#1747c4;font:800 15px inherit;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:8px}
+header.s .dl{background:var(--ac);color:#fff;box-shadow:0 6px 24px rgba(47,109,246,.45)}
+.bg{display:none;width:48px;height:48px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.14);color:#fff;font-size:20px}
+/* hero */
+.hero{position:relative;overflow:hidden;min-height:640px;border-radius:0 0 56px 56px;display:grid;place-items:center;text-align:center;padding:120px 0 80px;
+background:radial-gradient(900px 500px at 0 0,#3b82ff 0,transparent 60%),radial-gradient(800px 600px at 100% 20%,rgba(160,200,255,.35),transparent 60%),linear-gradient(135deg,#1d4fd8 0%,#0f2e96 40%,#091845 75%,#050c26 100%)}
+.spot{position:absolute;left:0;top:0;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;background:radial-gradient(circle,rgba(190,220,255,.5),rgba(120,170,255,.18) 45%,transparent 70%);filter:blur(18px);pointer-events:none;will-change:transform}
+.fl{position:absolute;left:0;top:0;will-change:transform;pointer-events:none}
+.ring{border:1.5px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(255,255,255,.07)}
+.blur{border-radius:50%;background:rgba(255,255,255,.28);backdrop-filter:blur(4px)}
+.tag{display:flex;align-items:center;gap:8px;padding:12px 18px;border-radius:16px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(10px);color:#fff;font-weight:800;font-size:16px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.hc{position:relative;z-index:2;width:100%}
+h1{font-size:clamp(34px,6.2vw,76px);line-height:1.08;letter-spacing:-.035em;font-weight:800;margin:0 auto 44px;max-width:900px;color:#fff}
+h1 em{font-style:normal;background:linear-gradient(90deg,#f0d3a8,#d9b48a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.box{display:flex;align-items:center;gap:10px;max-width:840px;margin:0 auto;padding:10px;background:#140f12;background:#0b0f1a;border:2.5px solid var(--gold);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.box>span{color:#6ea0ff;padding-left:14px;font-size:20px}
+.box input{flex:1;min-width:0;background:transparent;border:0;color:#fff;font:600 17px inherit;font-family:inherit;padding:14px 6px}
+.box input:focus{outline:0}
+.box input::placeholder{color:#7d89a8}
+.pb{width:62px;height:58px;border-radius:14px;border:1px solid #28407f;background:#10234f;color:#8fb4ff;font-size:22px;cursor:pointer}
+.go{height:58px;padding:0 30px;border-radius:14px;border:0;background:#121828;color:#fff;font:800 17px inherit;font-family:inherit;cursor:pointer}
+.go:hover{background:#1a2440}
+#msg{min-height:26px;margin-top:14px;font-size:15px;color:#d5e2ff;font-weight:700}#msg.err{color:#ffb4b4}
+.chk{display:flex;flex-wrap:wrap;gap:12px 30px;justify-content:center;list-style:none;margin:22px 0 0;padding:0;color:#fff;font-weight:700}
+.chk li{display:flex;align-items:center;gap:10px}
+.chk li::before{content:"✓";width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.3);display:grid;place-items:center;font-size:16px}
+.phone{position:fixed;right:28px;bottom:28px;z-index:40;width:72px;height:72px;border-radius:50%;border:0;background:var(--ac);color:#fff;font-size:26px;box-shadow:0 10px 30px rgba(47,109,246,.6);cursor:pointer}
+/* sections */
+section{padding:84px 0}
+.eb{display:flex;align-items:center;gap:10px;font-weight:800;font-size:14px;letter-spacing:.1em;color:var(--ac2)}
+.eb::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ac2)}
+h2{font-size:clamp(30px,4.6vw,52px);line-height:1.1;letter-spacing:-.03em;margin:14px 0 18px;font-weight:800}
+.bar{display:flex;align-items:center;gap:8px;margin-bottom:28px}.bar::before{content:"";width:72px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--ac),var(--ac2))}.bar::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.by{display:flex;flex-wrap:wrap;gap:8px 28px;color:var(--mut);font-size:15px;margin-bottom:34px}.by b{color:var(--tx)}
+.two{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:stretch}
+.lead{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--ac);border-radius:22px;padding:36px 40px;font-size:20px;line-height:1.8;font-weight:600}
+.tb{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.tb div{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:17px 26px;border-bottom:1px solid var(--line)}
+.tb div:last-child{border:0}.tb b{font-size:17px}.tb span{color:var(--mut)}
+h3{font-size:22px;margin:42px 0 18px}
+.kt{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.k{display:flex;gap:18px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 24px;color:var(--mut);font-size:17px}
+.k::before{content:"✓";flex:none;width:38px;height:38px;border-radius:50%;background:rgba(52,211,153,.14);color:var(--ok);display:grid;place-items:center;font-weight:800}
+.tx{color:var(--mut);max-width:80ch}
+.alt{background:var(--card2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:30px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px}
+.c small{display:block;color:var(--ac2);font-weight:800;margin-bottom:10px;font-size:15px}
+.c h4{margin:0 0 8px;font-size:20px}.c p{margin:0;color:var(--mut);font-size:16px}
+.tabs{display:inline-flex;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px;margin:10px 0 22px}
+.tabs button{border:0;background:transparent;color:var(--mut);font:700 15px inherit;font-family:inherit;padding:10px 20px;border-radius:10px;cursor:pointer}
+.tabs button.on{background:var(--ac);color:#fff}
+.st{display:none;list-style:none;padding:0;margin:0;gap:12px;max-width:760px}.st.on{display:grid}
+.st li{counter-increment:n;display:flex;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 20px;color:var(--mut)}
+.st{counter-reset:n}.st li::before{content:counter(n);flex:none;width:30px;height:30px;border-radius:50%;background:var(--ac);color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
+details{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:12px;max-width:900px}
+summary{cursor:pointer;padding:18px 22px;font-weight:800;font-size:18px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";color:var(--ac2);font-size:24px;line-height:1}details[open] summary::after{content:"–"}
+details p{padding:0 22px;margin:0 0 20px;color:var(--mut)}
+.me{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:34px}
+.av{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;display:grid;place-items:center;font-size:42px;font-weight:800;overflow:hidden}.av img{width:100%;height:100%;object-fit:cover}
+.me h4{margin:0 0 6px;font-size:26px}.me p{margin:0;color:var(--mut)}
+.me ul{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px}.me a{color:var(--ac2);font-weight:800}
+footer{border-top:1px solid var(--line);padding:50px 0 34px;color:var(--mut);font-size:15px}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:36px}.fg h5{margin:0 0 12px;color:var(--tx);font-size:16px}.fg a{display:block;padding:4px 0}.fg a:hover{color:var(--tx)}
+.dis{margin-top:32px;padding-top:22px;border-top:1px solid var(--line);font-size:14px}
+@media (max-width:900px){.w{padding:0 20px}.two,.kt,.fg{grid-template-columns:1fr}.nv,.sp .ic{display:none}.bg{display:block;margin-left:auto}.sp{margin:0}.lead{font-size:18px;padding:26px}.me{grid-template-columns:1fr;text-align:center}.me ul{justify-content:center}.av{margin:auto}.tb div{grid-template-columns:100px 1fr}.hero{border-radius:0 0 36px 36px}.box{flex-wrap:wrap}.box>span{display:none}.box input{flex-basis:100%}.go{flex:1}.dl span{display:none}.phone{right:16px;bottom:16px;width:60px;height:60px}}
+body.m header .w{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:10px;background:var(--card)}
+body.m .nv{display:block;width:100%}body.m .nv .pill{width:100%;justify-content:space-between;background:var(--card2);color:var(--tx)}body.m .dd{position:static;margin-top:6px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header id="hd"><div class="w">
+<a class="logo" href="#top"><i>▶</i>IGDownloader</a>
+<a class="nv pill" href="#blog" style="display:none"></a>
+<div class="nv"><button class="pill" type="button">Downloaders ⌄</button><div class="dd"><a href="#download">Reels downloader</a><a href="#download">Video downloader</a><a href="#download">Instagram to MP3</a></div></div>
+<div class="nv"><button class="pill" type="button">Company ⌄</button><div class="dd"><a href="#about">About me</a><a href="#" data-c>Contact</a></div></div>
+<div class="nv"><button class="pill" type="button">Legal ⌄</button><div class="dd"><a href="#" class="np">Privacy policy</a><a href="#" class="np">Terms</a><a href="#" class="np">Disclaimer</a></div></div>
+<div class="sp"><button class="ic" id="th" type="button" aria-label="Toggle light or dark mode">☀</button><a class="dl" href="#download">⤓ <span>Download</span></a></div>
+<button class="bg" id="bg" type="button" aria-label="Menu">☰</button>
+</div></header>
+
+<main id="top">
+<div class="hero" id="hero">
+<div class="spot" id="spot"></div>
+<div class="fl blur" style="width:60px;height:60px" data-x=".21" data-y=".14" data-r="90"></div>
+<div class="fl blur" style="width:40px;height:40px" data-x=".38" data-y=".08" data-r="80"></div>
+<div class="fl ring" style="width:150px;height:150px" data-x=".07" data-y=".5" data-r="110"></div>
+<div class="fl ring" style="width:200px;height:200px" data-x=".8" data-y=".22" data-r="130"></div>
+<div class="fl ring" style="width:120px;height:120px" data-x=".93" data-y=".72" data-r="110"></div>
+<div class="fl blur" style="width:84px;height:84px" data-x=".8" data-y=".56" data-r="100"></div>
+<div class="fl blur" style="width:42px;height:42px" data-x=".5" data-y=".9" data-r="80"></div>
+<div class="fl tag" data-x=".11" data-y=".38" data-r="130">🎬 MP4</div>
+<div class="fl tag" data-x=".86" data-y=".3" data-r="130">♪ MP3</div>
+<div class="fl tag" data-x=".78" data-y=".66" data-r="130">▣ 1080p HD</div>
+<div class="hc"><div class="w">
+<h1>Instagram Video <em>Downloader</em> to MP4</h1>
+<div class="box"><span>🔗</span>
+<input id="url" type="url" inputmode="url" placeholder="Paste an Instagram Reel or video link" aria-label="Instagram video URL" autocomplete="off">
+<button class="pb" id="pb" type="button" aria-label="Paste from clipboard">📋</button>
+<button class="go" id="go" type="button">⤓ Download</button></div>
+<div id="msg" role="status" aria-live="polite"></div>
+<ul class="chk"><li>MP4 and MP3</li><li>Reels and videos</li><li>No account or login</li><li>Mobile and computer</li></ul>
+</div></div></div>
+
+<section id="what"><div class="w">
+<div class="eb">QUICK ANSWER</div>
+<h2>What is IGDownloader?</h2><div class="bar"></div>
+<div class="by"><span>Written by <b>IGDownloader Team</b></span><span>Reviewed by <b>IGDownloader Team</b></span><span>Published November 10, 2026</span></div>
+<div class="two">
+<div class="lead">IGDownloader is a free online Instagram video downloader that saves Reels and video posts as MP4 or MP3. Paste a link, choose a format, then press Download. It works in any browser on mobile and desktop, with no account, login, watermark or software installation.</div>
+<div class="tb">
+<div><b>Price</b><span>Free, with no download limit</span></div>
+<div><b>Formats</b><span>MP4 and MP3</span></div>
+<div><b>Quality</b><span>Best quality the original upload offers</span></div>
+<div><b>Account</b><span>Not needed: no login, no watermark, no software</span></div>
+<div><b>Devices</b><span>Android, iPhone, iPad, Windows, Mac and Linux</span></div>
+<div><b>Browsers</b><span>Chrome, Safari, Firefox, Edge and Opera</span></div>
+</div></div>
+<h3>Key takeaways</h3>
+<div class="kt">
+<div class="k">It is a free, online tool for mobile and computer that saves Instagram videos as MP4 or MP3.</div>
+<div class="k">You can only save the quality that was uploaded, so HD is available only when the original is HD.</div>
+<div class="k">It saves Reels, video posts and IGTV from public accounts.</div>
+<div class="k">Private accounts, deleted posts and some protected videos can’t be saved.</div>
+<div class="k">Save only content you have permission to save, for personal use, and never repost or sell it.</div>
+</div></div></section>
+
+<section class="alt" id="features"><div class="w">
+<div class="eb">KEY FEATURES</div><h2>Key features of our Instagram video downloader</h2><div class="bar"></div>
+<div class="grid">
+<div class="c"><small>01</small><h4>Enjoyable viewing</h4><p>Save sharp videos for offline viewing in the best quality the upload offers.</p></div>
+<div class="c"><small>02</small><h4>Change format</h4><p>Keep a Reel as MP4, or save only the sound as an MP3.</p></div>
+<div class="c"><small>03</small><h4>Friendly experience</h4><p>No account, no personal details and no software. Just paste and save.</p></div>
+<div class="c"><small>04</small><h4>Freedom to download</h4><p>Save Reels and videos every day without limits.</p></div>
+<div class="c"><small>05</small><h4>Flexibility</h4><p>Works in any major browser on Android, iPhone, iPad, Windows, Mac and Linux.</p></div>
+</div></div></section>
+
+<section id="how"><div class="w">
+<div class="eb">STEP BY STEP</div><h2>How to download Instagram videos</h2><div class="bar"></div>
+<p class="tx">Connect to a stable internet connection and follow the steps below.</p>
+<div class="tabs"><button class="on" data-t="a" type="button">Android or iOS</button><button data-t="p" type="button">PC or macOS</button></div>
+<ol class="st on" id="a"><li>Open Instagram on your phone, pick the Reel or video, tap the share icon and choose Copy link.</li><li>Open this page in your browser.</li><li>Tap the input box and paste the link.</li><li>Choose MP4 or MP3.</li><li>Press Download to save the file.</li></ol>
+<ol class="st" id="p"><li>Open the Reel in your browser and copy the address from the address bar.</li><li>Open this page.</li><li>Paste the link into the box.</li><li>Choose MP4 or MP3.</li><li>Press Download to save the file.</li></ol>
+</div></section>
+
+<section class="alt" id="why"><div class="w">
+<div class="eb">WHY US</div><h2>How we compare with other downloaders</h2><div class="bar"></div>
+<div class="grid">
+<div class="c"><small>01</small><h4>Speed</h4><p>Links are processed right away.</p></div>
+<div class="c"><small>02</small><h4>Quality</h4><p>Files are saved in their original quality.</p></div>
+<div class="c"><small>03</small><h4>Free of cost</h4><p>Unlimited downloads, no subscription.</p></div>
+<div class="c"><small>04</small><h4>Easy</h4><p>Paste the link and press Download.</p></div>
+<div class="c"><small>05</small><h4>Secure</h4><p>No forced installs, intrusive ads or hidden redirects.</p></div>
+</div></div></section>
+
+<section id="faqs"><div class="w">
+<div class="eb">QUESTIONS</div><h2>FAQs</h2><div class="bar"></div>
+<details><summary>Is the Instagram video downloader free?</summary><p>Yes. It is free to use, with no hidden charges, account or software.</p></details>
+<details><summary>Can I download Instagram videos without software?</summary><p>Yes. It runs in your browser. Paste the link, choose a format and press Download.</p></details>
+<details><summary>Can I save videos to my phone gallery?</summary><p>Yes. Once the file is on your device you can open it from storage, even offline.</p></details>
+<details><summary>Can I convert an Instagram Reel to MP3?</summary><p>Yes. Paste the Reel link and choose MP3.</p></details>
+<details><summary>Is there a download limit?</summary><p>No. There is no cap on Reels or videos, and no account is needed.</p></details>
+<details><summary>Why can’t I download some videos?</summary><p>Videos from private accounts, deleted posts and some protected content can’t be saved. Check that the link is correct and the account is public.</p></details>
+</div></section>
+
+<section class="alt" id="about"><div class="w">
+<div class="eb">ABOUT</div><h2>About the creator</h2><div class="bar"></div>
+<div class="me"><div class="av" id="av">Y</div><div><h4 id="myname">Your Name</h4><p id="mybio"></p><ul id="mylinks"></ul></div></div>
+</div></section>
+</main>
+
+<footer><div class="w">
+<div class="fg">
+<div><a class="logo" href="#top" style="margin-bottom:12px"><i>▶</i>IGDownloader</a>Convert and save Instagram videos to MP4 or MP3 without login, watermark or installation.</div>
+<div><h5>Explore</h5><a href="#features">Key features</a><a href="#how">How to download</a><a href="#why">Why us</a><a href="#faqs">FAQs</a></div>
+<div><h5>Company</h5><a href="#about">About me</a><a href="#" data-c>Contact</a><a href="#" class="np">Privacy policy</a><a href="#" class="np">Terms</a></div>
+</div>
+<div class="dis">IGDownloader is an independent tool and is not affiliated with, endorsed by, or connected to Instagram or Meta. Save only content you have permission to save, and do not repost or sell it.<br><span id="copy"></span></div>
+</div></footer>
+<button class="phone" type="button" aria-label="Open on phone" onclick="document.getElementById('url').focus();scrollTo({top:0})">▯</button>
+
+<script>
+/* ===== EDIT YOUR DETAILS HERE ===== */
+var ME={name:"Virat",bio:"Fast, Secure and FREE Reel Downloader!",photo:"data:image/jpeg;base64,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",email:"viratvijendra@gmail.com",instagram:"https://www.instagram.com/__virat.________/",whatsapp:"",github:"",website:""};
+/* Your own backend. Must accept ?url=<link>&format=mp4 and return JSON { "download": "<file link>" } */
+var API_ENDPOINT="/api/download";
+/* ================================== */
+var $=function(i){return document.getElementById(i)};
+$("myname").textContent=ME.name;$("mybio").textContent=ME.bio;
+if(ME.photo){var im=document.createElement("img");im.src=ME.photo;im.alt=ME.name;$("av").textContent="";$("av").appendChild(im)}else $("av").textContent=ME.name.charAt(0).toUpperCase();
+[["Email","mailto:"+ME.email],["Instagram",ME.instagram],["WhatsApp",ME.whatsapp],["GitHub",ME.github],["Website",ME.website]].forEach(function(x){if(!x[1]||x[1]==="mailto:")return;var li=document.createElement("li"),a=document.createElement("a");a.href=x[1];a.textContent=x[0];if(x[0]!=="Email"){a.target="_blank";a.rel="noopener"}li.appendChild(a);$("mylinks").appendChild(li)});
+document.querySelectorAll("[data-c]").forEach(function(a){a.href="mailto:"+ME.email});
+document.querySelectorAll(".np").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault()})});
+$("copy").textContent="© "+new Date().getFullYear()+" IGDownloader by "+ME.name+". All rights reserved.";
+/* header */
+var hd=$("hd");function sc(){hd.classList.toggle("s",scrollY>40)}addEventListener("scroll",sc);sc();
+document.querySelectorAll(".nv").forEach(function(n){n.addEventListener("click",function(e){var o=n.classList.contains("o");document.querySelectorAll(".nv").forEach(function(x){x.classList.remove("o")});if(!o)n.classList.add("o");e.stopPropagation()})});
+addEventListener("click",function(){document.querySelectorAll(".nv").forEach(function(x){x.classList.remove("o")})});
+$("bg").addEventListener("click",function(){document.body.classList.toggle("m")});
+$("th").addEventListener("click",function(){var d=document.documentElement,l=getComputedStyle(d).getPropertyValue("--bg").trim()==="#f3f6ff";d.setAttribute("data-theme",l?"dark":"light")});
+document.querySelectorAll(".tabs button").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll(".tabs button").forEach(function(x){x.classList.remove("on")});document.querySelectorAll(".st").forEach(function(x){x.classList.remove("on")});b.classList.add("on");$(b.dataset.t).classList.add("on")})});
+/* hero motion: cursor spotlight + floating shapes that drift and shy away from the pointer */
+(function(){
+var hero=$("hero"),spot=$("spot"),fl=[].slice.call(hero.querySelectorAll(".fl")),W=0,H=0,mx=null,my=null,sx=0,sy=0;
+var calm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+function size(){W=hero.clientWidth;H=hero.clientHeight;if(mx===null){sx=W*.7;sy=H*.35}}
+size();addEventListener("resize",size);
+function mv(x,y){var r=hero.getBoundingClientRect();mx=x-r.left;my=y-r.top}
+hero.addEventListener("pointermove",function(e){mv(e.clientX,e.clientY)});
+hero.addEventListener("pointerleave",function(){mx=my=null});
+fl.forEach(function(f,i){f.p={ph:i*1.7,ox:0,oy:0}});
+function tick(t){
+  var tx=mx===null?W*.7+Math.sin(t/3000)*W*.2:mx,ty=my===null?H*.35+Math.cos(t/3500)*H*.15:my;
+  sx+=(tx-sx)*.08;sy+=(ty-sy)*.08;
+  spot.style.transform="translate("+sx+"px,"+sy+"px)";
+  fl.forEach(function(f){
+    var p=f.p,bx=f.dataset.x*W,by=f.dataset.y*H,w=f.offsetWidth,h=f.offsetHeight,R=+f.dataset.r;
+    var dx=Math.sin(t/2600+p.ph)*16,dy=Math.cos(t/2100+p.ph)*14,px=0,py=0;
+    if(mx!==null){var cx=bx+dx+w/2-mx,cy=by+dy+h/2-my,d=Math.hypot(cx,cy)||1;if(d<R*2){var k=(1-d/(R*2))*R*.7;px=cx/d*k;py=cy/d*k}}
+    p.ox+=(px-p.ox)*.1;p.oy+=(py-p.oy)*.1;
+    f.style.transform="translate("+(bx+dx+p.ox-w/2)+"px,"+(by+dy+p.oy-h/2)+"px)";
+  });
+  if(!calm)requestAnimationFrame(tick)
+}
+requestAnimationFrame(tick);if(calm)tick(0);
+})();
+/* downloader */
+var msg=$("msg"),input=$("url"),go=$("go");
+function say(t,c){msg.textContent=t;msg.className=c||""}
+function valid(u){try{var x=new URL(u);return /(^|\.)instagram\.com$/.test(x.hostname)&&/\/(reel|reels|p|tv)\//.test(x.pathname)}catch(e){return false}}
+$("pb").addEventListener("click",function(){if(navigator.clipboard&&navigator.clipboard.readText){navigator.clipboard.readText().then(function(t){input.value=t.trim()},function(){say("Allow clipboard access, or paste with Ctrl+V.","err")})}else say("Paste with Ctrl+V.","err")});
+async function run(){
+  var u=input.value.trim();
+  if(!u){say("Paste an Instagram link first.","err");return}
+  if(!valid(u)){say("That isn’t an Instagram Reel, post or video link. Copy the link from the share menu and try again.","err");return}
+  if(!API_ENDPOINT){say("Link looks good. The download server isn’t connected yet: add your API address in the script to turn this on.");return}
+  go.disabled=true;say("Processing your link…");
+  try{var r=await fetch(API_ENDPOINT+"?url="+encodeURIComponent(u)+"&format=mp4"),d=await r.json();
+    if(d&&d.download){say("Ready. Starting your download.");location.href=d.download}else say("We couldn’t save this video. It may be private or deleted.","err")}
+  catch(e){say("Something went wrong. Check your connection and try again.","err")}
+  go.disabled=false}
+go.addEventListener("click",run);input.addEventListener("keydown",function(e){if(e.key==="Enter")run()});
+</script>
+</body>
+</html>

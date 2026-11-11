@@ -1,5 +1,5 @@
 import os, re, subprocess, sys, threading, time
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -34,6 +34,11 @@ def limited(ip):
     h.append(now)
     hits[ip] = h
     return len(h) > 20
+
+
+@app.get("/")
+def home():
+    return send_from_directory(os.path.dirname(os.path.abspath(__file__)), "index.html")
 
 
 @app.get("/health")
