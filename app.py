@@ -1,7 +1,7 @@
-import json, os, re, subprocess, sys, threading, time
+import json, os, re, shutil, tempfile, subprocess, sys, threading, time
 from urllib.parse import urlparse, quote
 import requests
-from flask import Flask, request, jsonify, send_from_directory, Response, stream_with_context
+from flask import Flask, request, jsonify, send_from_directory, send_file, Response, stream_with_context
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -107,7 +107,7 @@ def info():
         return sz
 
     labels = {2160: "2160p 4K", 1440: "1440p 2K", 1080: "1080p Full HD", 720: "720p HD"}
-    vids, auds, seen = [], [], set()
+    vids, auds, seen, vo = [], [], set(), []
     for f in data.get("formats") or []:
         u = f.get("url")
         if not u or f.get("protocol") not in ("https", "http"):
@@ -121,12 +121,29 @@ def info():
             if key not in seen:
                 seen.add(key)
                 vids.append({"label": lab, "ext": ext.upper(), "size": size_of(f), "url": link(u, ext), "h": h})
+        elif vc != "none" and ac == "none":
+            vo.append(f)
         elif vc == "none" and ac != "none":
             lab = f"{round(f['abr'])} kbps" if f.get("abr") else "Audio"
             key = ("a", lab, ext)
             if key not in seen:
                 seen.add(key)
-                auds.append({"label": lab, "ext": ext.upper(), "size": size_of(f), "url": link(u, ext), "h": f.get("abr") or 0})
+                auds.append({"label": lab, "ext": ext.upper(), "size": size_of(f), "url": link(u, ext), "h": f.get("abr") or 0, "raw": u})
+    if vo:  # Instagram usually gives picture and sound separately, so we join them for the visitor
+        vo = [f for f in vo if f.get("ext") == "mp4"] or vo
+        ba = max(auds, key=lambda x: x["h"]) if auds else None
+        for f in sorted(vo, key=lambda f: -(f.get("height") or 0)):
+            h = f.get("height") or 0
+            lab = labels.get(h, f"{h}p" if h else "Video")
+            if any(v["label"] == lab for v in vids):
+                continue
+            vs = size_of(f)
+            if ba:
+                sz = (vs + ba["size"]) if (vs and ba["size"]) else vs
+                u2 = "/api/merge?v=" + quote(f["url"], safe="") + "&a=" + quote(ba["raw"], safe="") + "&n=" + quote(name)
+            else:
+                sz, u2 = vs, link(f["url"], "mp4")
+            vids.append({"label": lab, "ext": "MP4", "size": sz, "url": u2, "h": h})
     if not vids and data.get("url"):
         ext = data.get("ext") or "mp4"
         vids.append({"label": "Best quality", "ext": ext.upper(), "size": None, "url": link(data["url"], ext), "h": 0})
@@ -136,7 +153,7 @@ def info():
     return jsonify(title=data.get("title") or "Instagram video",
                    uploader=data.get("uploader") or data.get("channel") or "",
                    duration=dur, thumbnail=link(th, "jpg", True) if th else "",
-                   video=vids, audio=auds)
+                   video=vids, audio=[{k: v for k, v in a.items() if k != "raw"} for a in auds])
 
 
 @app.get("/api/file")
@@ -158,6 +175,49 @@ def file():
     if up.headers.get("Content-Length"):
         h["Content-Length"] = up.headers["Content-Length"]
     return Response(stream_with_context(up.iter_content(65536)), status=up.status_code, headers=h)
+
+
+def ffmpeg_exe():
+    try:
+        import imageio_ffmpeg
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception:
+        return shutil.which("ffmpeg") or "ffmpeg"
+
+
+@app.get("/api/merge")
+def merge():
+    """Joins a video-only file and an audio-only file into one MP4 (no re-encoding, so it is fast)."""
+    v, a = request.args.get("v", ""), request.args.get("a", "")
+    for u in (v, a):
+        p = urlparse(u)
+        if p.scheme != "https" or not CDN.search(p.hostname or ""):
+            return jsonify(error="Invalid file link."), 400
+    n = re.sub(r"[^\w\- ]", "", request.args.get("n", "instagram-video"))[:60] or "instagram-video"
+    d = tempfile.mkdtemp()
+    try:
+        paths = []
+        for i, u in enumerate((v, a)):
+            fp, total = os.path.join(d, "in%d.mp4" % i), 0
+            with requests.get(u, stream=True, timeout=30) as up:
+                up.raise_for_status()
+                with open(fp, "wb") as fh:
+                    for chunk in up.iter_content(65536):
+                        total += len(chunk)
+                        if total > 150 * 1024 * 1024:
+                            raise ValueError("file too big")
+                        fh.write(chunk)
+            paths.append(fp)
+        out = os.path.join(d, "out.mp4")
+        subprocess.run([ffmpeg_exe(), "-y", "-i", paths[0], "-i", paths[1], "-c", "copy",
+                        "-movflags", "+faststart", out], capture_output=True, timeout=90, check=True)
+    except Exception as e:
+        shutil.rmtree(d, ignore_errors=True)
+        print("merge error:", e, flush=True)  # check this in your host logs
+        return jsonify(error="Could not prepare this video."), 502
+    resp = send_file(out, mimetype="video/mp4", as_attachment=True, download_name=n + ".mp4")
+    resp.call_on_close(lambda: shutil.rmtree(d, ignore_errors=True))
+    return resp
 
 
 if __name__ == "__main__":
