@@ -44,6 +44,29 @@ def home():
     return send_from_directory(os.path.dirname(os.path.abspath(__file__)), "index.html")
 
 
+SITE = "https://igdownloader-backend-x3s6.onrender.com"
+
+
+@app.get("/robots.txt")
+def robots():
+    return Response("User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n" % SITE, mimetype="text/plain")
+
+
+@app.get("/sitemap.xml")
+def sitemap():
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>%s/</loc></url></urlset>' % SITE)
+    return Response(xml, mimetype="application/xml")
+
+
+@app.get("/<name>")
+def verify_file(name):
+    """Serves Google Search Console's ownership file (google....html)."""
+    if re.fullmatch(r"google[0-9a-f]+\.html", name):
+        return send_from_directory(os.path.dirname(os.path.abspath(__file__)), name)
+    return jsonify(error="Not found."), 404
+
+
 @app.get("/health")
 def health():
     return {"ok": True}
