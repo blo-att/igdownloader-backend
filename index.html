@@ -265,12 +265,20 @@ document.querySelectorAll(".tabs button").forEach(function(b){b.addEventListener
 /* hero motion: cursor spotlight + floating shapes that drift and shy away from the pointer */
 (function(){
 var hero=$("hero"),spot=$("spot"),fl=[].slice.call(hero.querySelectorAll(".fl")),W=0,H=0,mx=null,my=null,sx=0,sy=0;
-var calm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+var amp=matchMedia("(prefers-reduced-motion:reduce)").matches?.45:1; /* phones with "remove animations" still get a gentle version */
 function size(){W=hero.clientWidth;H=hero.clientHeight;if(mx===null){sx=W*.7;sy=H*.35}}
 size();addEventListener("resize",size);
 function mv(x,y){var r=hero.getBoundingClientRect();mx=x-r.left;my=y-r.top}
-hero.addEventListener("pointermove",function(e){mv(e.clientX,e.clientY)});
-hero.addEventListener("pointerleave",function(){mx=my=null});
+hero.addEventListener("pointermove",function(e){if(e.pointerType!=="touch")mv(e.clientX,e.clientY)});
+hero.addEventListener("pointerleave",function(e){if(e.pointerType!=="touch")mx=my=null});
+/* phones: the glow follows your finger, then drifts again a moment after you let go */
+var tt;
+function tch(e){var t=e.touches[0];if(!t)return;clearTimeout(tt);mv(t.clientX,t.clientY)}
+hero.addEventListener("touchstart",tch,{passive:true});
+hero.addEventListener("touchmove",tch,{passive:true});
+function tend(){clearTimeout(tt);tt=setTimeout(function(){mx=my=null},1500)}
+hero.addEventListener("touchend",tend,{passive:true});
+hero.addEventListener("touchcancel",tend,{passive:true});
 fl.forEach(function(f,i){f.p={ph:i*1.7,ox:0,oy:0}});
 function tick(t){
   var tx=mx===null?W*.7+Math.sin(t/3000)*W*.2:mx,ty=my===null?H*.35+Math.cos(t/3500)*H*.15:my;
@@ -278,14 +286,14 @@ function tick(t){
   spot.style.transform="translate("+sx+"px,"+sy+"px)";
   fl.forEach(function(f){
     var p=f.p,bx=f.dataset.x*W,by=f.dataset.y*H,w=f.offsetWidth,h=f.offsetHeight,R=+f.dataset.r;
-    var dx=Math.sin(t/2600+p.ph)*16,dy=Math.cos(t/2100+p.ph)*14,px=0,py=0;
+    var dx=Math.sin(t/2600+p.ph)*16*amp,dy=Math.cos(t/2100+p.ph)*14*amp,px=0,py=0;
     if(mx!==null){var cx=bx+dx+w/2-mx,cy=by+dy+h/2-my,d=Math.hypot(cx,cy)||1;if(d<R*2){var k=(1-d/(R*2))*R*.7;px=cx/d*k;py=cy/d*k}}
     p.ox+=(px-p.ox)*.1;p.oy+=(py-p.oy)*.1;
     f.style.transform="translate("+(bx+dx+p.ox-w/2)+"px,"+(by+dy+p.oy-h/2)+"px)";
   });
-  if(!calm)requestAnimationFrame(tick)
+  requestAnimationFrame(tick)
 }
-requestAnimationFrame(tick);if(calm)tick(0);
+requestAnimationFrame(tick);
 })();
 /* downloader */
 var msg=$("msg"),input=$("url"),go=$("go");
