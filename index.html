@@ -26,6 +26,19 @@ header .w{display:flex;align-items:center;gap:12px;height:68px}
 .logo i{width:44px;height:44px;border-radius:12px;background:#fff;display:grid;place-items:center;color:var(--ac);font-style:normal;font-size:20px;box-shadow:0 6px 20px rgba(47,109,246,.4)}
 .logo i svg{display:block}.lp{fill:var(--ac)}.lb{fill:var(--ac);stroke:#fff;stroke-width:2.5}.la{stroke:#fff}
 header.s .logo i{background:linear-gradient(135deg,var(--ac),var(--ac2))}header.s .lp{fill:#fff}header.s .lb{fill:#fff;stroke:#3f7cf8}header.s .la{stroke:#3f7cf8}
+.mega{display:none;position:fixed;left:50%;top:calc(76px + env(safe-area-inset-top,0px));transform:translateX(-50%);width:min(1060px,94vw);background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden;z-index:60}
+.nv.o .mega{display:block}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:20px 28px;border-bottom:1px solid var(--line)}
+.mh strong{display:block;font-size:19px}.mh small{color:var(--mut);font-size:14px}
+.btn2{background:var(--ac);color:#fff;border-radius:12px;padding:11px 20px;font-weight:800;white-space:nowrap}
+.mc{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding:24px 28px 28px}
+.mc h6{margin:0 0 14px;font-size:13px;letter-spacing:.1em;display:flex;align-items:center;gap:8px}
+.mc h6::before{content:"";width:8px;height:8px;border-radius:50%}
+.d1{color:#f87171}.d1::before{background:#f87171}.d2{color:#34d399}.d2::before{background:#34d399}.d3{color:#fb923c}.d3::before{background:#fb923c}
+.mi{display:flex;gap:14px;align-items:center;padding:8px;border-radius:14px;margin-bottom:6px}.mi:hover{background:var(--card2)}
+.mi strong{display:block;font-size:16px;line-height:1.3}.mi small{display:block;color:var(--mut);font-size:13px}
+.ib{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:20px;color:#fff}
+.ib.r{background:linear-gradient(135deg,#2f6df6,#5b94ff)}.ib.g{background:#16a870}.ib.o{background:#f08a3c}
 .nv{position:relative}
 .pill{display:flex;align-items:center;gap:6px;height:48px;padding:0 20px;border-radius:99px;background:rgba(255,255,255,.14);border:0;color:#fff;font:700 16px inherit;font-family:inherit;cursor:pointer;backdrop-filter:blur(8px)}
 .pill:hover{background:rgba(255,255,255,.22)}
@@ -105,10 +118,17 @@ footer{border-top:1px solid var(--line);padding:50px 0 34px;color:var(--mut);fon
 .dis{margin-top:32px;padding-top:22px;border-top:1px solid var(--line);font-size:14px}
 @media (max-width:900px){.w{padding:0 20px}.two,.kt,.fg{grid-template-columns:1fr}.nv,.sp .ic{display:none}.bg{display:block;margin-left:auto}.sp{margin:0}.lead{font-size:18px;padding:26px}.me{grid-template-columns:1fr;text-align:center}.me ul{justify-content:center}.av{margin:auto}.tb div{grid-template-columns:100px 1fr}.hero{border-radius:0 0 36px 36px}.box{flex-wrap:wrap}.box>span{display:none}.box input{flex-basis:100%}.go{flex:1}.dl span{display:none}.phone{right:16px;bottom:16px;width:60px;height:60px}}
 body.m header .w{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:10px;background:var(--card)}
-body.m .nv{display:block;width:100%}body.m .nv .pill{width:100%;justify-content:space-between;background:var(--card2);color:var(--tx)}body.m .dd{position:static;margin-top:6px}
+body.m .nv{display:block;width:100%}body.m .nv .pill{width:100%;justify-content:space-between;background:var(--card2);color:var(--tx)}body.m .dd{position:static;margin-top:6px}body.m .mega{position:static;transform:none;width:100%;margin-top:6px}body.m .mc{grid-template-columns:1fr}
 .tabs,.tabs2{display:inline-flex;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px}
 .tabs2 button{border:0;background:transparent;color:var(--mut);font:700 15px inherit;font-family:inherit;padding:10px 20px;border-radius:10px;cursor:pointer}
 .tabs2 button.on{background:var(--ac);color:#fff}.tabs2 b{background:rgba(255,255,255,.15);border-radius:99px;padding:0 8px;margin-left:6px;font-size:13px}
+.lc{display:grid;gap:18px;align-content:start}
+.ds{background:var(--card);border:1px solid rgba(16,201,138,.5);border-radius:22px;padding:18px;display:grid;gap:12px}
+.dk{display:flex;gap:14px;align-items:center}.dk i{flex:none;width:46px;height:46px;border-radius:50%;background:#0f9d6c;color:#fff;display:grid;place-items:center;font-style:normal;font-size:20px;font-weight:800}
+.ds h4{margin:0;font-size:20px}.ds p{margin:2px 0 0;color:var(--mut);font-size:14px;line-height:1.5}
+.bdg{justify-self:start;background:rgba(227,195,154,.14);color:var(--gold);border-radius:99px;padding:4px 12px;font-weight:800;font-size:13px}
+.ds button{background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:14px;font:800 16px inherit;font-family:inherit;cursor:pointer}
+.ds[hidden],.note[hidden]{display:none}
 .rg{display:grid;grid-template-columns:320px 1fr;gap:24px;margin-top:26px;align-items:start}
 .pv,.tbp{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px}
 .th{position:relative}.th img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:14px;background:var(--card2);display:block}
@@ -128,7 +148,18 @@ body.m .nv{display:block;width:100%}body.m .nv .pill{width:100%;justify-content:
 <header id="hd"><div class="w">
 <a class="logo" href="#top"><i><svg viewBox="0 0 44 44" width="44" height="44" aria-hidden="true"><path class="lp" d="M16 11.5v17a1.5 1.5 0 0 0 2.3 1.3l14-8.5a1.5 1.5 0 0 0 0-2.6l-14-8.5A1.5 1.5 0 0 0 16 11.5z"/><circle class="lb" cx="31" cy="31.5" r="8"/><path class="la" d="M31 27.5v7m-3-3 3 3 3-3" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>IGDownloader</a>
 <a class="nv pill" href="#blog" style="display:none"></a>
-<div class="nv"><button class="pill" type="button">Downloaders ⌄</button><div class="dd"><a href="#download">Reels downloader</a><a href="#download">Video downloader</a><a href="#download">Instagram to MP3</a></div></div>
+<div class="nv"><button class="pill" type="button">Downloaders ⌄</button><div class="mega">
+<div class="mh"><div><strong>All Instagram tools</strong><small>Free, in your browser, no signup</small></div><a class="btn2" href="#download" data-m="paste">Paste a link →</a></div>
+<div class="mc">
+<div><h6 class="d1">VIDEO</h6>
+<a href="#" class="mi" data-m="reels"><b class="ib r">🎞</b><span><strong>Instagram Reels Downloader</strong><small>Save Reels as MP4</small></span></a>
+<a href="#" class="mi" data-m="video"><b class="ib r">▶</b><span><strong>Instagram Video Downloader</strong><small>Save video posts as MP4</small></span></a>
+<a href="#" class="mi" data-m="igtv"><b class="ib r">📺</b><span><strong>Instagram IGTV Downloader</strong><small>Save IGTV videos as MP4</small></span></a></div>
+<div><h6 class="d2">AUDIO</h6>
+<a href="#" class="mi" data-m="audio"><b class="ib g">♪</b><span><strong>Instagram Audio Downloader</strong><small>Save the sound as M4A</small></span></a></div>
+<div><h6 class="d3">MORE TOOLS</h6>
+<a href="#" class="mi" data-m="thumb"><b class="ib o">🖼</b><span><strong>Instagram Thumbnail Downloader</strong><small>Full-size cover image as JPG</small></span></a></div>
+</div></div></div>
 <div class="nv"><button class="pill" type="button">Company ⌄</button><div class="dd"><a href="#about">About me</a><a href="#" data-c>Contact</a></div></div>
 <div class="nv"><button class="pill" type="button">Legal ⌄</button><div class="dd"><a href="#" class="np">Privacy policy</a><a href="#" class="np">Terms</a><a href="#" class="np">Disclaimer</a></div></div>
 <div class="sp"><button class="ic" id="th" type="button" aria-label="Toggle light or dark mode">☀</button><a class="dl" href="#download">⤓ <span>Download</span></a></div>
@@ -149,7 +180,7 @@ body.m .nv{display:block;width:100%}body.m .nv .pill{width:100%;justify-content:
 <div class="fl tag" data-x=".86" data-y=".3" data-r="130">♪ MP3</div>
 <div class="fl tag" data-x=".78" data-y=".66" data-r="130">▣ 1080p HD</div>
 <div class="hc"><div class="w">
-<h1>Instagram Video <em>Downloader</em> to MP4</h1>
+<h1 id="h1">Instagram Video <em>Downloader</em> to MP4</h1>
 <div class="box"><span>🔗</span>
 <input id="url" type="url" inputmode="url" placeholder="Paste an Instagram Reel or video link" aria-label="Instagram video URL" autocomplete="off">
 <button class="pb" id="pb" type="button" aria-label="Paste from clipboard">📋</button>
@@ -160,10 +191,12 @@ body.m .nv{display:block;width:100%}body.m .nv .pill{width:100%;justify-content:
 
 <section id="res" hidden style="padding-bottom:30px"><div class="w">
 <div class="eb">LINK VERIFIED</div><h2>Your download is ready to pick</h2><div class="bar"></div>
-<div class="rg"><div class="pv"><div class="th"><img id="rth" alt=""><span id="rdu"></span></div><h4 id="rti"></h4><p id="rup"></p><button class="lnk" id="again" type="button">← Paste another link</button></div>
-<div class="tbp"><div class="tabs2"><button class="on" data-r="video" type="button">Video <b id="nv">0</b></button><button data-r="audio" type="button">Audio <b id="na">0</b></button></div>
+<div class="rg"><div class="lc"><div class="pv"><div class="th"><img id="rth" alt=""><span id="rdu"></span></div><h4 id="rti"></h4><p id="rup"></p><button class="lnk" id="again" type="button">← Paste another link</button></div>
+<div class="ds" id="ds" hidden><div class="dk"><i>✓</i><div><h4>Download started!</h4><p>Your file is being saved to your device. Thanks for using IGDownloader.</p></div></div><span class="bdg">🏆 Download badge earned</span><button id="dnew" type="button">Download another video</button></div></div>
+<div class="tbp"><div class="tabs2"><button class="on" data-r="video" type="button">Video <b id="nv">0</b></button><button data-r="audio" type="button">Audio <b id="na">0</b></button><button data-r="thumb" type="button">Thumbnail <b id="nt">0</b></button></div>
 <table class="rtb"><thead><tr><th>FILE TYPE</th><th>FORMAT</th><th>SIZE</th><th>ACTION</th></tr></thead><tbody id="rows"></tbody></table>
-<p class="note">Only the formats this video can really be saved in are listed.</p></div></div></div></section>
+<p class="note">Only the formats this video can really be saved in are listed.</p>
+<p class="note" id="dl2" hidden>Your download has started. <a id="sv" href="#" style="color:var(--ac2);font-weight:800;text-decoration:underline">Not started? Save the file here.</a></p></div></div></div></section>
 
 <section id="what"><div class="w">
 <div class="eb">QUICK ANSWER</div>
@@ -300,15 +333,22 @@ var msg=$("msg"),input=$("url"),go=$("go");
 function say(t,c){msg.textContent=t;msg.className=c||""}
 function valid(u){try{var x=new URL(u);return /(^|\.)instagram\.com$/.test(x.hostname)&&/\/(reel|reels|p|tv)\//.test(x.pathname)}catch(e){return false}}
 $("pb").addEventListener("click",function(){if(navigator.clipboard&&navigator.clipboard.readText){navigator.clipboard.readText().then(function(t){input.value=t.trim()},function(){say("Allow clipboard access, or paste with Ctrl+V.","err")})}else say("Paste with Ctrl+V.","err")});
-var R={video:[],audio:[]},tab="video";
+var TOOLS={reels:["Reels","MP4","video","Paste an Instagram Reel link"],video:["Video","MP4","video","Paste an Instagram video link"],igtv:["IGTV","MP4","video","Paste an Instagram IGTV link"],audio:["Audio","M4A","audio","Paste an Instagram Reel link to get its sound"],thumb:["Thumbnail","JPG","thumb","Paste an Instagram link to get its cover image"]};
+function setMode(k){var t=TOOLS[k];if(t){MODE=t[2];$("h1").innerHTML="Instagram "+t[0]+" <em>Downloader</em> to "+t[1];input.placeholder=t[3];document.title="Instagram "+t[0]+" Downloader | IGDownloader"}
+  if($("res").hidden===false)$("again").click();scrollTo({top:0,behavior:"smooth"});setTimeout(function(){input.focus()},400)}
+document.querySelectorAll(".mi,.btn2").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();setMode(a.dataset.m)})});
+var R={video:[],audio:[],thumb:[]},tab="video",MODE="video";
 function mb(n){if(!n)return"—";var m=n/1048576;return"≈ "+(m>=100?Math.round(m):m.toFixed(1))+" MB"}
 function dur(s){if(!s)return"";s=Math.round(s);return Math.floor(s/60)+":"+("0"+s%60).slice(-2)}
+function started(u){$("ds").hidden=false;$("dl2").hidden=false;$("sv").href=u}
+function hideStarted(){$("ds").hidden=true;$("dl2").hidden=true}
 function rows(){var tb=$("rows");tb.textContent="";R[tab].forEach(function(f){var tr=document.createElement("tr");
   [f.label,null,mb(f.size)].forEach(function(t,i){var td=document.createElement("td");if(i===1){var s=document.createElement("span");s.className="fm";s.textContent=f.ext;td.appendChild(s)}else td.textContent=t;tr.appendChild(td)});
-  var td=document.createElement("td"),a=document.createElement("a");a.className="gb";a.href=f.url;a.textContent="⤓ Download";td.appendChild(a);tr.appendChild(td);tb.appendChild(tr)});
+  var td=document.createElement("td"),a=document.createElement("a");a.className="gb";a.href=f.url;a.textContent="⤓ Download";a.addEventListener("click",function(){started(f.url)});td.appendChild(a);tr.appendChild(td);tb.appendChild(tr)});
   if(!R[tab].length){var tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=4;td.textContent="No "+tab+" formats found for this video.";tr.appendChild(td);tb.appendChild(tr)}}
 document.querySelectorAll(".tabs2 button").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll(".tabs2 button").forEach(function(x){x.classList.remove("on")});b.classList.add("on");tab=b.dataset.r;rows()})});
-$("again").addEventListener("click",function(){$("res").hidden=true;input.value="";say("");scrollTo({top:0});input.focus()});
+$("again").addEventListener("click",function(){$("res").hidden=true;hideStarted();input.value="";say("");scrollTo({top:0});input.focus()});
+$("dnew").addEventListener("click",function(){$("again").click()});
 async function run(){
   var u=input.value.trim();
   if(!u){say("Paste an Instagram link first.","err");return}
@@ -316,10 +356,10 @@ async function run(){
   go.disabled=true;say("Checking your link… the first try can take up to a minute.");
   try{var r=await fetch(API_ENDPOINT+"?url="+encodeURIComponent(u)),d=await r.json();
     if(!r.ok||d.error){say(d.error||"We couldn’t read this video. It may be private or deleted.","err")}
-    else{R={video:d.video||[],audio:d.audio||[]};tab="video";
-      document.querySelectorAll(".tabs2 button").forEach(function(x){x.classList.toggle("on",x.dataset.r==="video")});
+    else{hideStarted();R={video:d.video||[],audio:d.audio||[],thumb:d.thumb_dl?[{label:"Cover image",ext:"JPG",size:null,url:d.thumb_dl}]:[]};tab=MODE;
+      document.querySelectorAll(".tabs2 button").forEach(function(x){x.classList.toggle("on",x.dataset.r===tab)});
       $("rth").src=d.thumbnail||"";$("rdu").textContent=dur(d.duration);$("rdu").hidden=!d.duration;$("rti").textContent=d.title;$("rup").textContent=d.uploader;
-      $("nv").textContent=R.video.length;$("na").textContent=R.audio.length;rows();say("");
+      $("nv").textContent=R.video.length;$("na").textContent=R.audio.length;$("nt").textContent=R.thumb.length;rows();say("");
       $("res").hidden=false;$("res").scrollIntoView({behavior:"smooth"})}}
   catch(e){say("Something went wrong. Check your connection and try again.","err")}
   go.disabled=false}

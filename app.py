@@ -176,6 +176,7 @@ def info():
     return jsonify(title=data.get("title") or "Instagram video",
                    uploader=data.get("uploader") or data.get("channel") or "",
                    duration=dur, thumbnail=link(th, "jpg", True) if th else "",
+                   thumb_dl=link(th, "jpg") if th else "",
                    video=vids, audio=[{k: v for k, v in a.items() if k != "raw"} for a in auds])
 
 
