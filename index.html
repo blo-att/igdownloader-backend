@@ -39,6 +39,10 @@ header.s .logo i{background:linear-gradient(135deg,var(--ac),var(--ac2))}header.
 .mi strong{display:block;font-size:16px;line-height:1.3}.mi small{display:block;color:var(--mut);font-size:13px}
 .ib{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:20px;color:#fff}
 .ib.r{background:linear-gradient(135deg,#2f6df6,#5b94ff)}.ib.g{background:#16a870}.ib.o{background:#f08a3c}
+.cn{left:auto;right:0;width:min(470px,92vw);padding:14px}
+.ct{font-weight:800;padding:4px 10px 10px;color:var(--mut);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:2px}.cg a.on{color:var(--ac2);font-weight:800;background:var(--card2)}
+iframe.skiptranslate,.goog-te-banner-frame{display:none!important}body{top:0!important}#goog-gt-tt,.goog-te-balloon-frame{display:none!important}.goog-text-highlight{background:none!important;box-shadow:none!important}
 .nv{position:relative}
 .pill{display:flex;align-items:center;gap:6px;height:48px;padding:0 20px;border-radius:99px;background:rgba(255,255,255,.14);border:0;color:#fff;font:700 16px inherit;font-family:inherit;cursor:pointer;backdrop-filter:blur(8px)}
 .pill:hover{background:rgba(255,255,255,.22)}
@@ -162,6 +166,7 @@ body.m .nv{display:block;width:100%}body.m .nv .pill{width:100%;justify-content:
 </div></div></div>
 <div class="nv"><button class="pill" type="button">Company ⌄</button><div class="dd"><a href="#about">About me</a><a href="#" data-c>Contact</a></div></div>
 <div class="nv"><button class="pill" type="button">Legal ⌄</button><div class="dd"><a href="#" class="np">Privacy policy</a><a href="#" class="np">Terms</a><a href="#" class="np">Disclaimer</a></div></div>
+<div class="nv"><button class="pill" type="button">🌐 Countries ⌄</button><div class="dd cn"><div class="ct">Browse by country</div><div class="cg" id="cg"></div></div></div>
 <div class="sp"><button class="ic" id="th" type="button" aria-label="Toggle light or dark mode">☀</button><a class="dl" href="#download">⤓ <span>Download</span></a></div>
 <button class="bg" id="bg" type="button" aria-label="Menu">☰</button>
 </div></header>
@@ -273,6 +278,7 @@ body.m .nv{display:block;width:100%}body.m .nv .pill{width:100%;justify-content:
 </div>
 <div class="dis">IGDownloader is an independent tool and is not affiliated with, endorsed by, or connected to Instagram or Meta. Save only content you have permission to save, and do not repost or sell it.<br><span id="copy"></span></div>
 </div></footer>
+<div id="gt" hidden></div>
 <button class="phone" type="button" aria-label="Open on phone" onclick="document.getElementById('url').focus();scrollTo({top:0})">▯</button>
 
 <script>
@@ -328,6 +334,18 @@ function tick(t){
 }
 requestAnimationFrame(tick);
 })();
+/* countries: the page reloads in that country's main language (machine translation by Google Translate) */
+var CN=[["Global / USA","en"],["India","hi"],["Pakistan","ur"],["Germany","de"],["Romania","ro"],["Indonesia","id"],["United Kingdom","en"],["Canada","en"],["Philippines","tl"],["Nigeria","en"],["Bangladesh","bn"],["Kenya","sw"],["Malaysia","ms"],["Nepal","ne"],["Brazil","pt"],["Vietnam","vi"],["Australia","en"],["Spain","es"],["United States","en"],["Mexico","es"],["Turkey","tr"],["Thailand","th"],["France","fr"]];
+var curCn="";try{curCn=localStorage.getItem("ig_cn")||""}catch(e){}
+CN.forEach(function(c){var a=document.createElement("a");a.href="#";a.textContent=c[0];if(c[0]===curCn)a.className="on";
+  a.addEventListener("click",function(e){e.preventDefault();
+    try{localStorage.setItem("ig_cn",c[0])}catch(x){}
+    document.cookie=c[1]==="en"?"googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT":"googtrans=/en/"+c[1]+";path=/";
+    location.reload()});$("cg").appendChild(a)});
+document.querySelectorAll(".logo").forEach(function(l){l.setAttribute("translate","no")});
+if(/googtrans=\/en\/\w+/.test(document.cookie)){
+  window.gtInit=function(){new google.translate.TranslateElement({pageLanguage:"en",autoDisplay:false},"gt")};
+  var gs=document.createElement("script");gs.src="https://translate.google.com/translate_a/element.js?cb=gtInit";document.body.appendChild(gs)}
 /* downloader */
 var msg=$("msg"),input=$("url"),go=$("go");
 function say(t,c){msg.textContent=t;msg.className=c||""}
